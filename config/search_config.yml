@@ -1,0 +1,62 @@
+search:
+  location: remote
+  employment_types:
+    - part-time
+    - contract
+    - fractional
+  exclude:
+    - full-time
+    - internship
+    - volunteer
+    - unpaid
+    - help desk
+    - desktop support
+  titles:
+    - SOC Analyst
+    - Security Operations Analyst
+    - Cybersecurity Analyst
+    - Security Analyst
+    - Threat Intelligence Analyst
+    - Cyber Threat Intelligence Analyst
+    - Threat Hunter
+    - Detection Engineer
+    - Incident Response Analyst
+    - MDR Analyst
+    - Security Monitoring Analyst
+    - Cyber Fusion Analyst
+  keywords:
+    - SIEM
+    - EDR
+    - Splunk
+    - Microsoft Sentinel
+    - QRadar
+    - threat hunting
+    - detection engineering
+    - MITRE ATT&CK
+    - incident response
+    - IOC
+    - IOA
+    - cyber threat intelligence
+    - vulnerability intelligence
+    - security monitoring
+
+candidate:
+  target_hours_per_week: 10-20
+  preferred_hourly_usd: 40
+  minimum_hourly_usd: 30
+  seniority: experienced
+  strengths:
+    - SOC monitoring and response
+    - SIEM detection engineering
+    - cyber threat intelligence
+    - threat hunting
+    - incident investigation
+    - MITRE ATT&CK
+    - security automation
+    - vulnerability and threat research
+    - incident response
+
+ranking:
+  minimum_match_score: 65
+  strong_match_score: 80
+  max_results: 15
