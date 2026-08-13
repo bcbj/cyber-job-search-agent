@@ -3,8 +3,8 @@ name: Daily Cyber Job Search
 on:
   workflow_dispatch:
   schedule:
-    # GitHub Actions cron is UTC. Run at 10:00 UTC and 11:00 UTC and let the
-    # job select the 06:00 America/New_York occurrence, accounting for DST.
+    # GitHub Actions cron is UTC. Run at both 10:00 and 11:00 UTC and use the
+    # local-time gate below so exactly one scheduled run executes at 06:00 ET.
     - cron: '0 10 * * *'
     - cron: '0 11 * * *'
 
@@ -27,28 +27,37 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Determine whether this is the 06:00 ET run
-        id: schedule
+      - name: Determine run mode
+        id: mode
         shell: bash
         run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "run_search=true" >> "$GITHUB_OUTPUT"
+            echo "mode=manual" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           HOUR=$(TZ=America/New_York date +'%H')
           MINUTE=$(TZ=America/New_York date +'%M')
           echo "local_hour=$HOUR" >> "$GITHUB_OUTPUT"
           echo "local_minute=$MINUTE" >> "$GITHUB_OUTPUT"
+
           if [ "$HOUR" = "06" ]; then
             echo "run_search=true" >> "$GITHUB_OUTPUT"
+            echo "mode=scheduled" >> "$GITHUB_OUTPUT"
           else
             echo "run_search=false" >> "$GITHUB_OUTPUT"
+            echo "mode=dst_guard" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Run job search
-        if: steps.schedule.outputs.run_search == 'true'
+        if: steps.mode.outputs.run_search == 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python src/job_search_agent.py
 
       - name: Upload daily report
-        if: steps.schedule.outputs.run_search == 'true'
+        if: steps.mode.outputs.run_search == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: cyber-job-search-report-${{ github.run_id }}
