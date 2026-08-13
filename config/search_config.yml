@@ -40,6 +40,27 @@ search:
     - vulnerability intelligence
     - security monitoring
 
+sources:
+  remotive:
+    enabled: true
+  arbeitnow:
+    enabled: true
+    api_url: https://www.arbeitnow.com/api/job-board-api
+  linkedin:
+    enabled: true
+    search_base_url: https://www.linkedin.com/jobs/search/
+    searches:
+      - SOC Analyst
+      - Security Operations Analyst
+      - Cybersecurity Analyst
+      - Cyber Threat Intelligence Analyst
+      - Threat Hunter
+      - Detection Engineer
+      - Incident Response Analyst
+  adzuna:
+    enabled: false
+    api_url: https://api.adzuna.com/v1/api/jobs/us/search/1
+
 candidate:
   target_hours_per_week: 10-20
   preferred_hourly_usd: 40
