@@ -9,7 +9,7 @@ on:
     - cron: '0 11 * * *'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   search:
@@ -56,10 +56,31 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python src/job_search_agent.py
 
-      - name: Upload daily report
+      - name: Publish latest reports to repository
+        if: steps.mode.outputs.run_search == 'true'
+        shell: bash
+        run: |
+          mkdir -p reports/latest
+          cp reports/daily_report.md reports/latest/daily_report.md
+          cp reports/daily_report.json reports/latest/daily_report.json
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/latest/daily_report.md reports/latest/daily_report.json
+
+          if git diff --cached --quiet; then
+            echo "No report changes to commit."
+          else
+            git commit -m "Update latest daily job search report"
+            git push
+          fi
+
+      - name: Upload daily report artifact
         if: steps.mode.outputs.run_search == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: cyber-job-search-report-${{ github.run_id }}
-          path: reports/
+          path: |
+            reports/latest/daily_report.md
+            reports/latest/daily_report.json
           retention-days: 30
