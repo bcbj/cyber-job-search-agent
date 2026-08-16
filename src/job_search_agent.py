@@ -147,9 +147,21 @@ def main() -> None:
         except Exception as exc: print(f"Arbeitnow error: {exc}")
     ranked = score_jobs([j for j in dedupe(jobs) if is_candidate(j)])
     reviewed = ai_review(ranked)
+    links = linkedin_search_links()
+
+    # Keep the generated outputs in one predictable location. The workflow will
+    # publish these files to reports/latest after a successful run.
+    latest_dir = Path("reports/latest")
+    latest_dir.mkdir(parents=True, exist_ok=True)
+    payload = {"generated_at": datetime.now(timezone.utc).isoformat(), "jobs": reviewed, "linkedin_searches": links}
+    latest_dir.joinpath("daily_report.md").write_text(render_report(reviewed, links), encoding="utf-8")
+    latest_dir.joinpath("daily_report.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+    # Preserve the existing top-level outputs for compatibility with the current
+    # Actions artifact until the workflow is updated in the next commit.
     Path("reports").mkdir(exist_ok=True)
-    Path("reports/daily_report.md").write_text(render_report(reviewed, linkedin_search_links()), encoding="utf-8")
-    Path("reports/daily_report.json").write_text(json.dumps({"jobs": reviewed, "linkedin_searches": linkedin_search_links()}, indent=2), encoding="utf-8")
+    Path("reports/daily_report.md").write_text(render_report(reviewed, links), encoding="utf-8")
+    Path("reports/daily_report.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"Found {len(reviewed)} qualifying jobs from automated sources.")
 
 
