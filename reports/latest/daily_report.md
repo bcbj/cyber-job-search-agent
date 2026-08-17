@@ -1,13 +1,13 @@
 # Daily Remote Part-Time Cybersecurity Jobs
 
-Generated: 2026-08-17 14:41 UTC
+Generated: 2026-08-17 17:46 UTC
 
 ## Filter statistics
 
-- Jobs retrieved: **818**
-- Duplicates removed: **641**
-- Rejected — non-cybersecurity title: **141**
-- Rejected — explicit non-cyber title: **35**
+- Jobs retrieved: **824**
+- Duplicates removed: **644**
+- Rejected — non-cybersecurity title: **153**
+- Rejected — explicit non-cyber title: **26**
 - Rejected — no technical cyber signal: **1**
 - Rejected — no explicit part-time/fractional signal: **0**
 - Rejected — not remote: **0**
