@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-19T10:31:03.605286+00:00",
+  "generated_at": "2026-08-20T10:32:36.274734+00:00",
   "filter_statistics": {
-    "retrieved": 901,
-    "duplicate_removed": 714,
-    "non_cyber_title": 149,
-    "no_cyber_technical_signal": 1,
-    "not_part_time": 0,
+    "retrieved": 848,
+    "duplicate_removed": 671,
+    "non_cyber_title": 145,
+    "no_cyber_technical_signal": 0,
+    "not_part_time": 1,
     "not_remote": 0,
-    "excluded_title": 37,
+    "excluded_title": 31,
     "qualified": 0,
     "remotive_retrieved": 85,
-    "arbeitnow_retrieved": 816
+    "arbeitnow_retrieved": 763
   },
   "jobs": [],
   "linkedin_searches": [
